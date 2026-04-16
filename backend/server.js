@@ -23,10 +23,6 @@ const goalRoutes = require("./routes/goalRoutes");
 app.use("/api/goals", goalRoutes);
 
 
-// const userRoutes = require("./routes/userRoutes");
-
-// app.use("/api/users", userRoutes);
-
 const feedbackRoutes = require("./routes/feedbackRoutes");
 
 app.use("/api/feedback", feedbackRoutes);

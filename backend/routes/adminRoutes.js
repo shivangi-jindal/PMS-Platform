@@ -6,7 +6,7 @@ const checkRole = require("../middleware/roleMiddleware");
 
 const { getInsights } = require("../controllers/adminController");
 
-// 👑 Admin only
+//  Admin only
 router.get("/insights", auth, checkRole("admin"), getInsights);
 
 module.exports = router;

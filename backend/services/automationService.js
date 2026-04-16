@@ -15,7 +15,7 @@ const runProbationCheck = async () => {
       (today - doj) / (1000 * 60 * 60 * 24)
     );
 
-    // 🔥 DAY 30
+    //  DAY 30
     if (diffDays === 30) {
       console.log(`Trigger Day 30 for ${user.name}`);
 
@@ -27,7 +27,7 @@ const runProbationCheck = async () => {
       });
     }
 
-    // 🔥 DAY 60
+    //  DAY 60
     if (diffDays === 60) {
       await prisma.probation.create({
         data: {
@@ -37,7 +37,7 @@ const runProbationCheck = async () => {
       });
     }
 
-    // 🔥 DAY 80
+    //  DAY 80
     if (diffDays === 80) {
       await prisma.probation.create({
         data: {
@@ -49,7 +49,7 @@ const runProbationCheck = async () => {
   }
 };
 
-// ⏰ RUN DAILY
+//  RUN DAILY
 cron.schedule("0 0 * * *", runProbationCheck);
 
 module.exports = runProbationCheck;

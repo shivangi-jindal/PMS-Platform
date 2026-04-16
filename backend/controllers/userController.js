@@ -1,15 +1,15 @@
 const prisma = require("../prismaClient");
 const bcrypt = require("bcrypt");
 
-// REGISTER USER (FINAL VERSION)
+// REGISTER USER 
 const registerUser = async (req, res) => {
   try {
     const { name, email, password, role, managerId } = req.body;
 
-    // 1️⃣ Hash password
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 2️⃣ Create user
+    //  Create user
     const user = await prisma.user.create({
       data: {
         name,
@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
       }
     });
 
-    // 3️⃣ Create probation cycles (only for employees)
+    //  Create probation cycles (only for employees)
     if (role === "employee") {
       await prisma.probation.createMany({
         data: [
@@ -48,7 +48,7 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1️⃣ Find user
+    //  Find user
     const user = await prisma.user.findUnique({
       where: { email }
     });
@@ -57,14 +57,14 @@ const loginUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // 2️⃣ Compare password
+    //  Compare password
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    // 3️⃣ Generate JWT token
+    //  Generate JWT token
     const token = jwt.sign(
       {
         id: user.id,

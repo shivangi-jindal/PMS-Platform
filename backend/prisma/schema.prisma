@@ -141,6 +141,6 @@ model Probation {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // 🔥 RELATION
+  // RELATION
   user User @relation(fields: [userId], references: [id])
 }

@@ -1,6 +1,6 @@
 const prisma = require("../prismaClient");
 
-// 📊 ADMIN INSIGHTS
+
 const getInsights = async (req, res) => {
   try {
     const feedbacks = await prisma.feedback.findMany();

@@ -15,7 +15,7 @@ const {
   updateProgress   
 } = require("../controllers/goalController");
 
-// 🔐 PROTECTED ROUTES
+//  PROTECTED ROUTES
 router.post("/create", auth, checkRole("employee", "manager"), createGoal);
 router.get("/my", auth, getUserGoals);
 router.get("/all", auth, checkRole("manager", "admin"), getAllGoals);

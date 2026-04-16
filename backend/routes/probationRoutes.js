@@ -10,12 +10,12 @@ const {
 } = require("../controllers/probationController");
 
 
-// ================= EMPLOYEE =================
+//  EMPLOYEE 
 // View own probation records
 router.get("/my", auth, getMyProbation);
 
 
-// ================= MANAGER =================
+//  MANAGER 
 // Review probation (approve/reject)
 router.patch(
   "/:id/review",

@@ -9,7 +9,7 @@ const auth = async (req, res, next) => {
       return res.status(401).json({ error: "Token missing" });
     }
 
-    // ✅ FIX: split Bearer token
+    // split Bearer token
     const token = authHeader.split(" ")[1];
     console.log("AUTH HEADER:", req.headers.authorization);
 

@@ -1,6 +1,5 @@
 const prisma = require("../prismaClient");
 
-// ✅ ADD THIS (MISSING FUNCTION)
 const getMyProbation = async (req, res) => {
   try {
     const userId = req.user.id;
