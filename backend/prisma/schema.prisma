@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  role     String @default("employee")
+
+  department String?
+  status     String  @default("active")
+
+  managerId String?
+
+  joiningDate DateTime @default(now())
+
+  probationStatus String @default("active")
+
+  manager      User?  @relation("UserToManager", fields: [managerId], references: [id])
+  subordinates User[] @relation("UserToManager")
+
+  goals Goal[]
+
+  sentFeedbacks     Feedback[] @relation("FeedbackSent")
+  receivedFeedbacks Feedback[] @relation("FeedbackReceived")
+
+  flags      Flag[]
+  reviews    ReviewCycle[]
+  tasks      Task[]
+  probations Probation[]
+}
+
+model Goal {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+
+  status   String @default("pending")
+  priority String @default("medium")
+
+  weightage Int @default(0)
+  progress  Int @default(0)
+
+  deadline  DateTime?
+  createdAt DateTime  @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  tasks Task[]
+}
+
+model Task {
+  id     String @id @default(uuid())
+  title  String
+  status String @default("pending")
+
+  dueDate DateTime?
+
+  assignedToId String?
+  assignedTo   User?   @relation(fields: [assignedToId], references: [id])
+
+  goalId String
+  goal   Goal   @relation(fields: [goalId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Feedback {
+  id String @id @default(uuid())
+
+  fromUserId String
+  toUserId   String
+
+  rating  Int
+  comment String?
+
+  cycleType String
+  status    String @default("pending")
+
+  reviewedBy String?
+  reviewNote String?
+
+  createdAt DateTime @default(now())
+
+  fromUser User @relation("FeedbackSent", fields: [fromUserId], references: [id])
+  toUser   User @relation("FeedbackReceived", fields: [toUserId], references: [id])
+}
+
+model Flag {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  reason   String
+  severity String
+
+  triggeredByAI Boolean @default(false)
+
+  createdAt DateTime @default(now())
+}
+
+model ReviewCycle {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  cycleType String // quarterly | biannual
+  status    String  @default("pending")
+  score     Int?
+  remarks   String?
+
+  createdAt DateTime @default(now())
+}
+
+model Probation {
+  id     String @id @default(uuid())
+  userId String
+  cycle  String // day30, day60, day80
+
+  status String @default("pending") // pending, passed, failed
+  score  Int?
+
+  reviewedBy String? // manager/admin id
+  reviewNote String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 🔥 RELATION
+  user User @relation(fields: [userId], references: [id])
+}

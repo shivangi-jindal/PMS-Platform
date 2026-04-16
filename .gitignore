@@ -1,0 +1,14 @@
+# Node modules
+node_modules/
+
+# Env files
+.env
+
+# Prisma
+.prisma
+
+# Logs
+npm-debug.log
+
+# OS files
+.DS_Store
