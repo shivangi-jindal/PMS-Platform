@@ -181,7 +181,7 @@ Tested using:
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/pms-platform.git
+git clone https://github.com/shivangi-jindal/PMS-Platform.git
 cd pms-platform/backend
 ```
 
